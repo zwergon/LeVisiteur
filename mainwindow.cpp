@@ -71,6 +71,32 @@ void MainWindow::on_fullscreenButton_clicked()
     requestVLC( FULLSCREEN );
 }
 
+void MainWindow::pauseScene()
+{
+    if ( scene ==  0 ) {
+        return;
+    }
+    if ( scene->isRunning() ){
+        timer->stop();
+        scene->setRunning(false);
+    }
+    else {
+        if ( !timer->isActive() )
+            timer->start();
+        scene->setRunning(true);
+    }
+}
+
+void MainWindow::startScene()
+{
+    if ( scene == 0 ){
+        return;
+    }
+    scene->setRunning(true);
+    if ( !timer->isActive() )
+        timer->start(1000);
+}
+
 void MainWindow::requestVLC( int state ){
 
     QNetworkRequest request;
@@ -87,16 +113,10 @@ void MainWindow::requestVLC( int state ){
         break;
 
     case PAUSE:
-        str += QString("?command=pl_pause&id=%1").arg(scene->id());
-        if ( scene->isRunning() ){
-            timer->stop();
-            scene->setRunning(false);
+        if ( scene != 0 ){
+            str += QString("?command=pl_pause&id=%1").arg(scene->id());
         }
-        else {
-            if ( !timer->isActive() )
-                timer->start();
-            scene->setRunning(true);
-        }
+        pauseScene();
         break;
 
     case PLAYLIST:
@@ -104,10 +124,9 @@ void MainWindow::requestVLC( int state ){
         break;
 
     case MOVIE:
-        scene->setRunning(true);
-        if ( !timer->isActive() )
-            timer->start(1000);
-        str += QString("?command=pl_play&id=%1").arg(scene->id());
+        if ( scene != 0 ){
+            str += QString("?command=pl_play&id=%1").arg(scene->id());
+        }
         break;
     case VOLUME:
         str += QString("?command=volume&val=%1").arg(volume);
@@ -156,18 +175,15 @@ void MainWindow::on_scene2Button_clicked()
     launchMovie(1);
 }
 
-
 void MainWindow::on_scene3Button_clicked()
 {
     launchMovie(2);
 }
 
-
 void MainWindow::on_scene4Button_clicked()
 {
     launchMovie(3);
 }
-
 
 void MainWindow::on_scene5Button_clicked()
 {
@@ -257,6 +273,10 @@ void MainWindow::replyFinished( QNetworkReply* reply ){
         switch(rState){
         case PLAYLIST:
             verifyPlaylist( answer );
+            break;
+
+        case MOVIE:
+            startScene();
             break;
 
         case TIMER:

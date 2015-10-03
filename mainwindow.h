@@ -31,6 +31,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void pauseScene();
+    void startScene();
 private:
     bool isVLCFullscreen( const QByteArray& reply );
 
