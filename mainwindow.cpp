@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include "scene.h"
+#include "hostdialog.h"
 
 #include <QUrl>
 #include <QNetworkRequest>
@@ -14,10 +15,10 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    scene(0),
     timeTick(0),
     volume(50),
-    requireFullScreen(false)
+    requireFullScreen(false),
+    scene(0)
 {
 
     manager = new QNetworkAccessManager(this);
@@ -205,6 +206,11 @@ void MainWindow::on_scene8Button_clicked()
     launchMovie(7);
 }
 
+void MainWindow::on_scene9Button_clicked()
+{
+    launchMovie(8);
+}
+
 bool MainWindow::isVLCFullscreen( const QByteArray& reply ){
     QDomDocument doc;
     doc.setContent( reply );
@@ -293,10 +299,6 @@ void MainWindow::replyFinished( QNetworkReply* reply ){
         }
     }
 
-
-
-
-
     updateUI();
 
 }
@@ -311,4 +313,17 @@ void MainWindow::on_soundDial_valueChanged(int value)
 {
     volume = value;
     requestVLC( VOLUME );
+}
+
+
+void MainWindow::on_actionHost_Port_triggered()
+{
+    VisiteurSettings* settings = VisiteurSettings::getInstance();
+    HostDialog dlg( settings->getHost(), settings->getPort());
+    int result = dlg.exec();
+    if ( result == QDialog::Accepted ) {
+
+        settings->setHost(dlg.getHost());
+        settings->setPort(dlg.getPort());
+    }
 }

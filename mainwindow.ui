@@ -228,6 +228,28 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>519</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuParametres">
+    <property name="title">
+     <string>Parametres</string>
+    </property>
+    <addaction name="actionHost_Port"/>
+   </widget>
+   <addaction name="menuParametres"/>
+  </widget>
+  <action name="actionHost_Port">
+   <property name="text">
+    <string>Host/Port</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

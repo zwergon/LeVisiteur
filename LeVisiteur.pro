@@ -15,10 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     visiteursettings.cpp \
-    scene.cpp
+    scene.cpp \
+    hostdialog.cpp
 
 HEADERS  += mainwindow.h \
     visiteursettings.h \
-    scene.h
+    scene.h \
+    hostdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    hostdialog.ui

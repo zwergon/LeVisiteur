@@ -12,6 +12,14 @@ public:
     const QString& getHost() const { return host; }
     int getPort() const { return port; }
 
+    void setHost( const QString& host ){
+        this->host = host;
+    }
+
+    void setPort( int port ){
+        this->port = port;
+    }
+
     QString getHostPort() const {
         return QString("%1:%2").arg(host).arg(port);
     }
